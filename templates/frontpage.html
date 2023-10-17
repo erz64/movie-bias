@@ -1,8 +1,34 @@
 <!DOCTYPE html>
-<title>Movie happyness rater</title>
+<title>Movie happiness rater</title>
 
-<ul>
-    {% for item in items %}
-    <li>{{ item }}
-    {% endfor %}
-</ul>
+
+
+<div class="dropdown">
+    <div id="myDropdown" class="dropdown-content">
+        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+        <ul>
+            {% for item in items %}
+            <li>
+                <a href="/{{loop.index}}">{{ item }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script>
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        li = div.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            txtValue = li[i].textContent || li[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>

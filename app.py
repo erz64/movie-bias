@@ -1,8 +1,8 @@
-from flask import Flask, render_template
-from movie_review_scorer_2 import MoviewReviewScorer
+from flask import Flask, render_template, request, redirect
+from movie_happiness_ratings import MoviewReviewScorer
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("frontpage.html", items=MoviewReviewScorer.add_stopwords())
+    return render_template("frontpage.html", items=MoviewReviewScorer.get_movie_titles())
