@@ -9,7 +9,7 @@
         <ul>
             {% for item in items %}
             <li>
-                <a href="/{{loop.index}}">{{ item }}</a>
+                <a href="/movie_score/{{loop.index}}">{{ item }}</a>
             </li>
             {% endfor %}
         </ul>
@@ -17,7 +17,7 @@
 </div>
 <script>
     function filterFunction() {
-        var input, filter, ul, li, a, i;
+        var input, filter, li, i;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
         div = document.getElementById("myDropdown");

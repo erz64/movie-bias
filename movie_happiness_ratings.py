@@ -1,3 +1,4 @@
+import numpy as np
 
 class MoviewReviewScorer:
     def get_happiness_scores():
@@ -10,11 +11,6 @@ class MoviewReviewScorer:
         return scores
 
     def get_movie_titles():
-        titles = []
-        with open('movietitles.txt', 'r') as f:
-            for line in f:
-                titles.append(line.strip().split(','))
-        titles = [item for sublist in titles for item in sublist]
-        titles = set(titles)
-        print(titles)
+        titles = np.loadtxt("movietitles.csv", delimiter=',', dtype=str)
+        print(len(titles))
         return titles
