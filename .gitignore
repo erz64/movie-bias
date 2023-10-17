@@ -1,2 +1,5 @@
 /IMDB_movie_details.json
 /IMDB_reviews.json
+/go_emotions_dataset.csv
+venv
+__pycache__

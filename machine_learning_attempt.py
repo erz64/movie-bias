@@ -16,6 +16,11 @@ from sklearn.preprocessing import FunctionTransformer, normalize
 from sklearn.semi_supervised import LabelSpreading, SelfTrainingClassifier
 from sklearn.svm import SVC
 from sklearn.base import TransformerMixin, BaseEstimator
+import torch
+from transformers import BertTokenizer, BertForSequenceClassification
+from transformers import AdamW
+from transformers import get_linear_schedule_with_warmup
+from torch.utils.data import DataLoader, TensorDataset, random_split
 import nltk
 nltk.download('punkt')
 
@@ -169,23 +174,112 @@ def eval_and_print_metrics(clf, X_train, y_train, X_test, y_test):
     print("-" * 10)
     print()
 
+
+
+
+
+# Define hyperparameters
+batch_size = 32
+learning_rate = 2e-5
+epochs = 4
+
+# Load pre-trained BERT model and tokenizer
+model_name = "bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name)
+model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2)
+
+# Load and preprocess the IMDb dataset (you can replace this with your own dataset)
+# For simplicity, we'll load a small subset here. In practice, you would load your dataset.
+texts = labeled_movies_corpus
+labels = summary_df.loc[summary_df['label']!=-1, 'label'].tolist()
+
+# Tokenize and encode the text data
+inputs = tokenizer(texts, padding=True, truncation=True, return_tensors="pt", max_length=256)
+
+# Create a DataLoader for training
+dataset = TensorDataset(inputs["input_ids"], inputs["attention_mask"], torch.tensor(labels))
+train_size = int(0.9 * len(dataset))
+train_dataset, val_dataset = random_split(dataset, [train_size, len(dataset) - train_size])
+
+train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+val_dataloader = DataLoader(val_dataset, batch_size=batch_size)
+
+# Define optimizer and learning rate scheduler
+optimizer = AdamW(model.parameters(), lr=learning_rate)
+scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=len(train_dataloader) * epochs)
+
+# Training loop
+for epoch in range(epochs):
+    model.train()
+total_loss = 0
+for batch in train_dataloader:
+    input_ids, attention_mask, label = batch
+    optimizer.zero_grad()
+    output = model(input_ids, attention_mask=attention_mask, labels=label)
+    loss = output.loss
+    loss.backward()
+    optimizer.step()
+    total_loss += loss.item()
+print(f"Epoch {epoch + 1}: Average Training Loss = {total_loss / len(train_dataloader)}")
+
+# Validation loop
+model.eval()
+correct = 0
+total = 0
+with torch.no_grad():
+    for batch in val_dataloader:
+        input_ids, attention_mask, label = batch
+        output = model(input_ids, attention_mask=attention_mask)
+        predictions = torch.argmax(output.logits, dim=1)
+        correct += (predictions == label).sum().item()
+        total += len(label)
+
+accuracy = correct / total
+print(f"Validation Accuracy: {accuracy}")
+
+# You can now use the fine-tuned BERT model for sentiment analysis on new text data
+
+# Define your new movie plot synopses
+new_synopses = movie_corpus
+
+# Tokenize and encode the new synopses
+inputs = tokenizer(new_synopses, padding=True, truncation=True, return_tensors="pt", max_length=256)
+
+# Make predictions
+model.eval()
+with torch.no_grad():
+    outputs = model(inputs["input_ids"], attention_mask=inputs["attention_mask"])
+    logits = outputs.logits
+
+# Determine the predicted sentiment
+predicted_labels = torch.argmax(logits, dim=1)
+
+# Map the predicted labels to sentiment classes
+sentiment_classes = ["Happy", "Not Happy"]
+predicted_sentiments = [sentiment_classes[label] for label in predicted_labels]
+
+# Print the predicted sentiments for the new synopses
+for synopsis, sentiment in zip(new_synopses, predicted_sentiments):
+    print(f"Synopsis: {synopsis}")
+    print(f"Predicted Sentiment: {sentiment}\n")
+
 if __name__ == "__main__":
     # X = labeled_movies_corpus
     # y = summary_df.loc[summary_df['label']!=-1, 'label']
-    X = movie_corpus
-    y = summary_df['label']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-    eval_and_print_metrics(st_pipeline, X_train, y_train, X_test, y_test)
+    #X = movie_corpus
+    #y = summary_df['label']
+    #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    #eval_and_print_metrics(st_pipeline, X_train, y_train, X_test, y_test)
 
-    predictions = st_pipeline.predict(movie_corpus)
+    #predictions = st_pipeline.predict(movie_corpus)
     """summary_df['label'] = predictions
     sad_movies = summary_df.loc[summary_df['label']== 1, 'movie_id']
     print(sad_movies)
     print(len(sad_movies))
     print(summary_df.loc[summary_df['movie_id'].isin(sad_movie_ids), 'label'])"""
-    happy_movies = summary_df.loc[summary_df['label']== 0, 'movie_id']
-    print(len(happy_movies))
-    print(summary_df.loc[summary_df['movie_id'].isin(happy_movie_ids), 'label'])
+    #happy_movies = summary_df.loc[summary_df['label']== 0, 'movie_id']
+    #print(len(happy_movies))
+    #print(summary_df.loc[summary_df['movie_id'].isin(happy_movie_ids), 'label'])
     # print(summary_df.loc[summary_df['movie_id'] == 'tt0163651', 'label'])
 
     
