@@ -41,7 +41,7 @@ emotion_df=emotion_df.drop('id',axis=1)
 emotion_df=emotion_df.drop('example_very_unclear',axis=1)
 
 # Fill 'emotion_corpus' with one string of text data per emotion
-emotionlist = emotion_df.columns.to_list()[2:];
+emotionlist = emotion_df.columns.to_list()[1:];
 n_emotions = len(emotionlist) # in case I need to reference the number of emotions (there are 28)
 emotion_corpus = [];
 for emotion in emotionlist:
