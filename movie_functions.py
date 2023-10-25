@@ -140,3 +140,46 @@ def test2(moviedata_df):
         print("Test failed, 'Toy Story 3' scored higher than 'Toy Story'\n")
     else:
         print("Test passed, 'Toy Story 3' scored lower than 'Toy Story'\n")
+        
+        
+# Account for film genres 
+def fit_for_genres(df,eps=1e-10,nmax=100):
+    h_scores = df['Happiness Score'].values
+    m = df.shape[0]
+    # create array of film genres
+    df_genrelist=df['genre'].to_list()
+    genres = np.array(list(set([item for sublist in df_genrelist for item in sublist])))  
+    n_genres = len(genres)
+    # Iteravely calculate genre happiness scores and use them to update each film's happiness score
+    n = 0
+    old_h_scores = np.copy(h_scores)
+    while True and (n < nmax):
+        # generate a mean happiness score for each genre, save into list
+        genres_mean_score = []
+        for genre in genres:
+            mask=[]
+            for i in range(m):
+                if genre in df_genrelist[i]:
+                    mask.append(True)
+                else:
+                    mask.append(False)
+            genres_mean_score.append(old_h_scores[mask].mean())
+        genres_mean_score = np.array(genres_mean_score) # make numpy array
+        # update movie happiness scores with the average of each film's associated genre scores 
+        new_h_scores = np.copy(h_scores)
+        for i in range(m):
+            temp=[]
+            for j in range(n_genres):
+                if genres[j] in df_genrelist[i]:
+                    temp.append(genres_mean_score[j])
+            new_h_scores[i] += np.mean(temp)
+        new_h_scores /= np.linalg.norm(new_h_scores) # ensures convergence
+        # update 'diff' and 'n'
+        diff = np.linalg.norm(new_h_scores - old_h_scores)
+        n += 1
+        if (diff < eps) or (n > nmax):
+            break
+        old_h_scores = new_h_scores
+        # update the df with the new happiness scores
+    return (new_h_scores, n)
+        
