@@ -142,8 +142,31 @@ def test2(moviedata_df):
         print("Test passed, 'Toy Story 3' scored lower than 'Toy Story'\n")
         
         
-# Account for film genres 
+
 def fit_for_genres(df,eps=1e-10,nmax=100):
+    """
+    Calculates the average score per genre, then updates each film's score with
+    the mean of its associated genres. Uses the new list to refine the genre
+    scores, and continues iterating until the norm of the difference in successive
+    scores is lower than 'eps', or until 'nmax' iterations is reached.
+    
+    Parameters
+    ----------
+    df : pandas dataframe
+        the movie dataframe with happiness score values
+    eps: float, optional
+        minimum allowed value of the normed difference between successive movie 
+        score vectors. Default is 1e-10.
+    nmax: int, optional
+        maximum allowed iterations. Default is 100.
+    
+    Returns
+    -------
+    new_h_scores : array(float)
+        the updated happiness score vector
+    n : int
+        number of iterations performed
+    """
     h_scores = df['Happiness Score'].values
     m = df.shape[0]
     # create array of film genres
