@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <title>Movie happiness rater</title>
 <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{  url_for('static', filename='frontpage.css')  }}">
 </head>
 
-
-
+<body>
+<div class="title">
+    Find out if a movie is sad or not
+</div>
 <div class="dropdown">
-    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+    <button onclick="myFunction()" class="dropbtn">Search a movie</button>
     <div id="myDropdown" class="dropdown-content">
         <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
         <ul>
@@ -19,6 +23,10 @@
         </ul>
     </div>
 </div>
+<div class="container">
+   <img src="{{ url_for('static', filename='scatterplot.png') }}" class="image" />
+</div>
+</body>
 <script>
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");

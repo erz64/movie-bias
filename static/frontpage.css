@@ -1,4 +1,8 @@
 /* Dropdown Button */
+body {
+  background-color: #f2f2f2;
+  color: #333;
+}
 .dropbtn {
     background-color: #04AA6D;
     color: white;
@@ -57,3 +61,26 @@ display: block;
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+/* Image Styling for Centering */
+.image {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto; /* Center horizontally */
+}
+
+/* Center vertically within a container, if needed */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh; /* Adjust the height of the container as needed */
+}
+
+.title {
+  text-align: center; /* Center the text horizontally */
+  padding: 20px 0; /* Add vertical spacing for the title */
+  font-size: 32px; /* Adjust the font size as needed */
+  text-transform: uppercase; /* Uppercase the text */
+  font-family: 'Roboto', sans-serif; /* Apply the chosen font */
+}
