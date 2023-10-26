@@ -53,8 +53,6 @@ happy_movie_ids = ['tt0319343', 'tt0795421', 'tt0096283', 'tt0432283', 'tt110962
                 'tt0198781', 'tt1490017', 'tt0486655', 'tt0038650', 'tt0093779', 'tt3783958', 'tt2278388', 'tt0045152',
                 'tt0126029', 'tt1485796', 'tt2948356']
 
-print(len(sad_movie_ids))
-print(len(happy_movie_ids))
 summary_df['label'] = np.select([summary_df['movie_id'].isin(sad_movie_ids), summary_df['movie_id'].isin(happy_movie_ids)],
                                 [1, 0],
                                 default=-1)
