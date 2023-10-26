@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template
 from movie_happiness_ratings import ScoreHelper
 
 app = Flask(__name__)
@@ -11,3 +11,7 @@ def index():
 def show_score(id):
     scores = ScoreHelper.get_happiness_scores()
     return scores[id-1]
+
+@app.route('/testi')
+def test():
+    return render_template("index.html")

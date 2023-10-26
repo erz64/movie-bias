@@ -1,8 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct 11 11:49:28 2023
 
+"""
 This file uses movie review text and the 'joy' and 'sadness' vectors to 
 generate a happiness score. It filters out references to actors, characters
 and a film's title from review text.
@@ -21,9 +18,6 @@ from sklearn.linear_model import LinearRegression
 import movie_functions as fns
 
 
-
-
-
 class MovieReviewScorer:
     def __init__(self):
         # When performing TF/IDF analysis, what kind of n-grams do I want
@@ -37,7 +31,7 @@ class MovieReviewScorer:
         emotion_corpus = self.fill_emotion_corpus(emotion_df, self.stopwords)
         del emotion_df # Conserve memory, delete dataframe
         (emotion_tfidf, emotion_words) = self.fit_emotion_vectorizer(emotion_corpus)
-        (sadness_vec, joy_vec, emotion_words) = self.create_emotion_vectors(emotion_tfidf, emotion_words)
+        (joy_vec, sadness_vec, emotion_words) = self.create_emotion_vectors(emotion_tfidf, emotion_words)
         # delete unused objects to save memory
         del emotion_tfidf
         del emotion_corpus
@@ -53,13 +47,9 @@ class MovieReviewScorer:
         del reviews_df
         (movie_tfidf, movie_words) = self.fit_movie_vectorizer(movie_corpus)
         movie_df = self.calculate_happiness_scores(movie_tfidf, movie_words, emotion_words, joy_vec, sadness_vec, movie_df)
-        del movie_corpus
         self.print_results(movie_df)
-        self.test_print(movie_corpus)
+        self.test_print(movie_df)
         self.print_plot(movie_df)
-
-        movie_df.to_pickle('movie_df')
-
 
 
     def add_stopwords(self):
@@ -231,7 +221,7 @@ class MovieReviewScorer:
     def calculate_happiness_scores(self, movie_tfidf, movie_words, emotion_words, joy_vec, sadness_vec, moviedata_df):
         # For each film calculate its 'happiness score'; add it to 'moviedata_df'
         h_scores = []
-        for i in range(n_movies):
+        for i in range(self.n_movies):
             movie_vec = movie_tfidf[i,:].toarray()[0]
             lnonzero = len(movie_vec) - movie_vec.tolist().count(0)
             arglist = np.argsort(movie_vec)[-lnonzero:]
@@ -250,6 +240,8 @@ class MovieReviewScorer:
         ### Account for film genres ###
         h_scores, niter = fns.fit_for_genres(moviedata_df,eps=0,nmax=80)
         moviedata_df['Happiness Score'] = h_scores
+        moviedata_df.to_pickle('movie_df')
+        return moviedata_df
 
     def print_results(self, moviedata_df):
         # print top 15 and bottom 15 scorers
@@ -273,7 +265,7 @@ class MovieReviewScorer:
         plt.plot(X, Y_pred, color='red')
         plt.show()
 
-    def test_print(moviedata_df):
+    def test_print(self, moviedata_df):
         fns.test1(moviedata_df)
         fns.test2(moviedata_df)
 
