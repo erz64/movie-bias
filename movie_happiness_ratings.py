@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 class ScoreHelper:
     def get_happiness_scores():
-        scores = np.loadtxt("happiness_score_list.csv", delimiter=',', dtype=str)
+        scores = np.loadtxt("happiness_scores.csv", delimiter=',', dtype=str)
         print(len(scores))
         return scores
 
