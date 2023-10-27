@@ -13,6 +13,21 @@ body {
   margin-left: 80%;
 }
 
+/* Style the button */
+button {
+  background-color: #3498db; /* Background color */
+  color: #fff; /* Text color */
+  padding: 5px 10px; /* Padding around the text */
+  border: none; /* Remove the border */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Show a pointer cursor on hover */
+}
+
+/* Hover effect */
+button:hover {
+  background-color: #2e86c1; /* Darker background color on hover */
+}
+
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
   background-color: #3e8e41;
@@ -46,16 +61,11 @@ body {
   min-width: 230px;
   border: 1px solid #ddd;
   z-index: 1;
-  left: 80%
+  left: 80%;
+  max-height: 650px; /* Set a maximum height for the dropdown content */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds the max height */
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
 
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #f1f1f1}
@@ -85,4 +95,54 @@ body {
   font-size: 32px; /* Adjust the font size as needed */
   text-transform: uppercase; /* Uppercase the text */
   font-family: 'Roboto', sans-serif; /* Apply the chosen font */
+}
+
+.center-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 25vh;
+}
+
+.colored-box {
+    width: 300px;
+    height: 50px;
+    position: relative;
+    background: linear-gradient(to right, red, green); /* Gradient from red to green */
+    display: flex;
+    justify-content: flex-end; /* Align value indicator to the right */
+    align-items: center;
+}
+
+.colored-box::after {
+  content: "";
+  width: 2px;
+  height: 100%;
+  background-color: blue;
+  position: absolute;
+  top: 0;
+  left: var(--line-position, 50%); /* Default position in the middle */
+}
+
+.colored-box[data-value]::before {
+    content: attr(data-value);
+    padding: 5px;
+    background-color: white;
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    right: -30px;
+}
+
+#movieTitle {
+  text-align: center;
+  font-size: 18px;
+  margin: 0; /* Remove default margin */
+}
+
+#movieDescription {
+  text-align: center;
+  font-size: 14px;
+  margin: 10px 0; /* Add margin for spacing */
 }

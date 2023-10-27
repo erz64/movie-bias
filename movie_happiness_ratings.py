@@ -7,14 +7,12 @@ import matplotlib.pyplot as plt
 class ScoreHelper:
     def get_happiness_scores():
         scores = np.loadtxt("happiness_scores.csv", delimiter=',', dtype=str)
-        print(len(scores))
         return scores
 
     def get_movie_titles():
         titles = np.loadtxt("movietitles.csv", delimiter=',', dtype=str)
         titles = [title.replace("'", "") for title in titles]
         titles = [title.replace('"', '') for title in titles]
-        print(len(titles))
         return titles
     
     def get_plot():

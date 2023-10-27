@@ -17,7 +17,7 @@
         <ul>
             {% for item in items %}
             <li>
-                <a href="/movie_score/{{loop.index}}">{{ item }}</a>
+                <button onclick="displayMovieRating('{{ item }}', '{{ scores[loop.index-1] }}')">{{ item }}</button>    
             </li>
             {% endfor %}
         </ul>
@@ -25,6 +25,11 @@
 </div>
 <div class="container">
    <img src="{{ url_for('static', filename='scatterplot.png') }}" class="image" />
+</div>
+<div class="center-box">
+    <h2 id="movieTitle"></h2>
+    <div class="colored-box" data-value="0.5"></div>
+    <p id="movieDescription"></p>
 </div>
 </body>
 <script>
@@ -46,4 +51,34 @@
             }
         }
     }
+    function displayMovieRating(movie_title, score) {
+        var coloredBox = document.querySelector(".colored-box");
+        var score = parseFloat(score)
+        var position = (score + 1) * 50; // Calculate position as a number between 0 and 100
+
+        coloredBox.setAttribute("data-value", Math.round(score * 100) / 100);
+        coloredBox.style.setProperty("--line-position", position + "%");
+
+        var movieTitleElement = document.getElementById("movieTitle");
+        movieTitleElement.textContent = movie_title;
+        console.log(score)
+        // Set the movie description below the colored box based on the score
+        var movieDescriptionElement = document.getElementById("movieDescription");
+        if (score >= 0.5) {
+            movieDescriptionElement.textContent = `According to our algorithm ${movie_title} is a happy movie`;
+        } 
+        else if (score <= -0.5) {
+            movieDescriptionElement.textContent = `According to our algorithm ${movie_title} is a sad movie`;
+        }
+        else if (-0.15 > score && score > -0.5) {
+            movieDescriptionElement.textContent = `According to our algorithm ${movie_title} is on the sadder side of movies`;
+        }
+        else if (0.15 < score && score < 0.5) {
+            movieDescriptionElement.textContent = `According to our algorithm ${movie_title} is on the happier side of movies`;
+        }
+        else {
+            movieDescriptionElement.textContent = `According to our algorithm ${movie_title} is neutral on the happy-sad scale`
+        }
+        }
+    
 </script>

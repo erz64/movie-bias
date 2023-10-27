@@ -5,12 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("frontpage.html", items=ScoreHelper.get_movie_titles())
-
-@app.route('/movie_score/<int:id>')
-def show_score(id):
-    scores = ScoreHelper.get_happiness_scores()
-    return scores[id-1]
+    return render_template("frontpage.html", items=ScoreHelper.get_movie_titles(), scores=ScoreHelper.get_happiness_scores())
 
 @app.route('/testi')
 def test():
