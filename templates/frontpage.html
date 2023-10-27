@@ -11,7 +11,7 @@
     Find out if a movie is sad or not
 </div>
 <div class="dropdown">
-    <button onclick="myFunction()" class="dropbtn">Search a movie</button>
+    
     <div id="myDropdown" class="dropdown-content">
         <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
         <ul>
@@ -24,8 +24,37 @@
     </div>
 </div>
 <div class="container">
-   <img src="{{ url_for('static', filename='scatterplot.png') }}" class="image" />
+    <img id="scatterplotImage" src="{{ url_for('static', filename='Scatter_All.png') }}" class="image" />
+    <div class="genre-selection">
+        <label for="genreDropdown">Select a Genre:</label>
+        <select id="genreDropdown">
+            <option value="all">All</option>
+            <option value="action">Action</option>
+            <option value="adventure">Adventure</option>
+            <option value="animation">Animation</option>
+            <option value="biography">Biography</option>
+            <option value="comedy">Comedy</option>
+            <option value="crime">Crime</option>
+            <option value="drama">Drama</option>
+            <option value="family">Family</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="film-Noir">Film-Noir</option>
+            <option value="history">History</option>
+            <option value="horror">Horror</option>
+            <option value="music">Music</option>
+            <option value="musical">Musical</option>
+            <option value="mystery">Mystery</option>
+            <option value="romance">Romance</option>
+            <option value="sci-fi">Sci-Fi</option>
+            <option value="sport">Sport</option>
+            <option value="thriller">Thriller</option>
+            <option value="war">War</option>
+            <option value="western">Western</option>
+        </select>
+    </div>
 </div>
+
+
 <div class="center-box">
     <h2 id="movieTitle"></h2>
     <div class="colored-box" data-value="0.5"></div>
@@ -33,9 +62,7 @@
 </div>
 </body>
 <script>
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
+
     function filterFunction() {
         var input, filter, li, i;
         input = document.getElementById("myInput");
@@ -79,6 +106,15 @@
         else {
             movieDescriptionElement.textContent = `According to our algorithm ${movie_title} is neutral on the happy-sad scale`
         }
-        }
+    }
+    document.getElementById("genreDropdown").addEventListener("change", function() {
+        var selectedGenre = this.value; // Get the selected genre from the dropdown
+        var imageElement = document.getElementById("scatterplotImage");
     
+        // Construct the URL for the scatterplot image based on the selected genre
+        var imageUrl = "/static/Scatter_" + selectedGenre + ".png";
+
+        // Update the image source
+        imageElement.src = imageUrl;
+    });
 </script>

@@ -47,15 +47,14 @@ button:hover {
 /* The search field when it gets focus/clicked on */
 #myInput:focus {outline: 3px solid #ddd;}
 
-/* The container <div> - needed to position the dropdown content */
+
 .dropdown {
+  padding-left: 200px;
   position: relative;
   display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-  display: none;
   position: absolute;
   background-color: #f6f6f6;
   min-width: 230px;
@@ -70,31 +69,64 @@ button:hover {
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #f1f1f1}
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
-
 /* Image Styling for Centering */
 .image {
-  max-width: 98%;
-  max-height: 98%;
+  max-width: 100%;
+  max-height: 100%;
   display: block;
-  margin: 0 auto; /* Center horizontally */
+  margin-right: 20px;
 }
 
-/* Center vertically within a container, if needed */
+
 .container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50vh; /* Adjust the height of the container as needed */
+  height: 50vh; 
+  margin-left: 150px;
+}
+
+#genreDropdown {
+  width: 150px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  appearance: none; 
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+}
+
+#genreDropdown:hover {
+  border-color: #3498db; 
+}
+
+#genreDropdown:focus {
+  border-color: #3498db; 
+}
+
+.genre-selection {
+  padding-bottom: 100px;
+  text-align: center;
+}
+
+/* Label for the genre dropdown menu */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
 }
 
 .title {
-  text-align: center; /* Center the text horizontally */
-  padding: 20px 0; /* Add vertical spacing for the title */
-  font-size: 32px; /* Adjust the font size as needed */
-  text-transform: uppercase; /* Uppercase the text */
-  font-family: 'Roboto', sans-serif; /* Apply the chosen font */
+  text-align: center; 
+  padding: 20px 0; 
+  font-size: 32px; 
+  text-transform: uppercase; 
+  font-family: 'Roboto', sans-serif; 
 }
 
 .center-box {
@@ -138,11 +170,11 @@ button:hover {
 #movieTitle {
   text-align: center;
   font-size: 18px;
-  margin: 0; /* Remove default margin */
+  margin: 0; 
 }
 
 #movieDescription {
   text-align: center;
   font-size: 14px;
-  margin: 10px 0; /* Add margin for spacing */
+  margin: 10px 0; 
 }

@@ -6,7 +6,3 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template("frontpage.html", items=ScoreHelper.get_movie_titles(), scores=ScoreHelper.get_happiness_scores())
-
-@app.route('/testi')
-def test():
-    return render_template("index.html")
