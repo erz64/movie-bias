@@ -178,3 +178,22 @@ label {
   font-size: 14px;
   margin: 10px 0; 
 }
+
+.additional-plots {
+  text-align: center; /* Center the link horizontally */
+  margin-top: 20px; /* Add spacing at the top */
+}
+
+.additional-plots a {
+  text-decoration: none; /* Remove underline from the link */
+  background-color: #3498db; /* Background color */
+  color: #fff; /* Text color */
+  padding: 5px 10px; /* Padding around the text */
+  border-radius: 5px; /* Add rounded corners */
+  font-size: 16px; /* Font size */
+  transition: background-color 0.3s; /* Smooth background color transition on hover */
+}
+
+.additional-plots a:hover {
+  background-color: #2e86c1; /* Darker background color on hover */
+}

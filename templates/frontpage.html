@@ -44,7 +44,7 @@
             <option value="Musical">Musical</option>
             <option value="Mystery">Mystery</option>
             <option value="Romance">Romance</option>
-            <option value="Sci-fi">Sci-Fi</option>
+            <option value="Sci-Fi">Sci-Fi</option>
             <option value="Sport">Sport</option>
             <option value="Thriller">Thriller</option>
             <option value="War">War</option>
@@ -58,6 +58,9 @@
     <h2 id="movieTitle"></h2>
     <div class="colored-box" data-value="0.5"></div>
     <p id="movieDescription"></p>
+</div>
+<div class="additional-plots">
+    <a href="/additional_plots">Additional plots</a>
 </div>
 </body>
 <script>
@@ -87,7 +90,7 @@
 
         var movieTitleElement = document.getElementById("movieTitle");
         movieTitleElement.textContent = movie_title;
-        console.log(score)
+
         // Set the movie description below the colored box based on the score
         var movieDescriptionElement = document.getElementById("movieDescription");
         if (score >= 0.5) {
